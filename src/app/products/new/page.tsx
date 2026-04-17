@@ -52,7 +52,7 @@ export default function NewProductPage() {
         <section className="surface stack">
           <div className="row">
             <p className="title" style={{ fontSize: "22px" }}>
-              구성동에 같은 글 올리기
+              다른 교내 구역에도 노출
             </p>
             <label>
               <input
@@ -63,7 +63,7 @@ export default function NewProductPage() {
               />
             </label>
           </div>
-          <p className="subtle">구성동에서 동네인증이 필요해요. 지금은 글을 작성중인 장동에만 글을 올릴 수 있어요.</p>
+          <p className="subtle">학생 인증 상태와 위치 기준에 따라 게시글 노출 범위가 제한될 수 있습니다.</p>
         </section>
 
         <button className="btn-primary" style={{ height: "56px", fontSize: "22px" }}>

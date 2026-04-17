@@ -1,14 +1,15 @@
 :root {
-  --app-bg: #ffffff;
-  --phone-bg: #090e17;
-  --panel: #101721;
-  --panel-soft: #151f2d;
-  --line: #1f2a38;
-  --text: #f0f4fa;
-  --muted: #9ca8b9;
-  --accent: #ff6f0f;
-  --accent-strong: #ff7f21;
-  --danger: #ff6961;
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --surface-soft: #f1f5fb;
+  --line: #dbe5f2;
+  --text: #172133;
+  --muted: #5d6b82;
+  --accent: #1273ea;
+  --accent-strong: #0d5ec4;
+  --accent-soft: #e9f2ff;
+  --danger: #d3304b;
+  --shadow: 0 16px 40px rgba(17, 32, 58, 0.09);
 }
 
 * {
@@ -19,9 +20,9 @@ html,
 body {
   margin: 0;
   min-height: 100%;
-  background: radial-gradient(circle at top, #f8fbff 0%, #f3f6fa 45%, #edf2f8 100%);
+  background: radial-gradient(circle at top, #ffffff 0%, var(--bg) 56%, #edf3fb 100%);
   color: var(--text);
-  font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  font-family: "Pretendard Variable", "SUIT", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
 }
 
 a {
@@ -31,23 +32,23 @@ a {
 
 .outer-shell {
   min-height: 100svh;
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
+  align-items: stretch;
+  padding: 0 28px;
 }
 
 .phone-shell {
-  width: min(390px, 100%);
-  height: min(844px, calc(100svh - 24px));
-  background: linear-gradient(180deg, #0b121d 0%, #080d15 100%);
-  border-radius: 34px;
-  border: 8px solid #0b1017;
-  box-shadow: 0 28px 52px rgba(8, 12, 20, 0.28);
+  width: min(430px, 100%);
+  height: 100svh;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fafe 100%);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  box-shadow: var(--shadow);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  animation: frame-in 280ms ease-out;
 }
 
 .scroll-area {
@@ -62,8 +63,10 @@ a {
 }
 
 .top-bar {
-  height: 58px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  height: 62px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,15 +75,15 @@ a {
 
 .top-bar h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 22px;
   letter-spacing: -0.02em;
   font-weight: 800;
 }
 
 .surface {
-  background: linear-gradient(180deg, #101823 0%, #0f1722 100%);
+  background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 16px;
 }
 
@@ -108,13 +111,14 @@ a {
   height: 52px;
   border-radius: 999px;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--line);
 }
 
 .title {
   margin: 0;
-  font-size: 21px;
+  font-size: 22px;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .subtle {
@@ -126,14 +130,14 @@ a {
 .product-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .product-item {
   display: grid;
-  grid-template-columns: 112px 1fr;
+  grid-template-columns: 110px 1fr;
   gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--line);
   padding-bottom: 12px;
   opacity: 0;
   transform: translateY(8px);
@@ -141,25 +145,26 @@ a {
 }
 
 .product-thumb {
-  width: 112px;
-  height: 112px;
+  width: 110px;
+  height: 110px;
   border-radius: 12px;
   object-fit: cover;
+  border: 1px solid #c9d6e8;
 }
 
 .product-name {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.18;
+  font-size: 22px;
+  line-height: 1.22;
   letter-spacing: -0.02em;
 }
 
 .price {
   margin: 2px 0 0;
-  font-size: 37px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--accent-strong);
 }
 
 .tiny {
@@ -169,8 +174,9 @@ a {
 }
 
 .metric {
-  color: #8f98aa;
-  font-size: 28px;
+  color: #51617b;
+  font-size: 14px;
+  margin: 0;
 }
 
 .floating-btn {
@@ -181,10 +187,10 @@ a {
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
-  padding: 13px 22px;
+  padding: 12px 20px;
   font-weight: 700;
-  font-size: 21px;
-  box-shadow: 0 12px 22px rgba(255, 111, 15, 0.38);
+  font-size: 16px;
+  box-shadow: 0 12px 22px rgba(18, 115, 234, 0.24);
   transition: transform 180ms ease;
 }
 
@@ -194,8 +200,8 @@ a {
 
 .tab-bar {
   height: 66px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(14, 20, 31, 0.97);
+  border-top: 1px solid var(--line);
+  background: #ffffff;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
 }
@@ -204,13 +210,13 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #7e8aa0;
-  font-size: 14px;
+  color: #70809a;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .tab-item-active {
-  color: #f6f9ff;
+  color: var(--accent-strong);
 }
 
 .label {
@@ -222,11 +228,17 @@ input,
 textarea {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid #273347;
-  background: #111a28;
-  color: #f3f8ff;
+  border: 1px solid #c8d8ee;
+  background: #ffffff;
+  color: var(--text);
   padding: 12px 13px;
   font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid #99c1f6;
+  border-color: #84b6f5;
 }
 
 textarea {
@@ -236,6 +248,7 @@ textarea {
 
 button {
   font: inherit;
+  cursor: pointer;
 }
 
 .btn-primary {
@@ -248,10 +261,10 @@ button {
 }
 
 .btn-ghost {
-  border: 1px solid #2f3a4d;
+  border: 1px solid #c5d6ee;
   border-radius: 12px;
-  background: #141d2a;
-  color: #eef3fa;
+  background: var(--surface-soft);
+  color: var(--text);
   padding: 11px 13px;
 }
 
@@ -270,49 +283,39 @@ button {
   grid-template-columns: 48px 1fr;
   gap: 12px;
   padding: 10px 2px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--line);
 }
 
 .chat-bubble {
   max-width: 82%;
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 11px 14px;
   font-size: 15px;
 }
 
 .chat-bubble-me {
   margin-left: auto;
-  background: var(--accent-strong);
+  background: #1b82fb;
   color: #fff;
 }
 
 .chat-bubble-you {
-  background: #2b3241;
+  background: #e8eef8;
 }
 
 .message-input-wrap {
   padding: 10px 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--line);
   display: grid;
   grid-template-columns: 1fr 56px;
   gap: 8px;
+  background: #fff;
 }
 
 .inline-link {
-  color: #9bc7ff;
+  color: var(--accent-strong);
   text-decoration: underline;
   text-underline-offset: 2px;
-}
-
-@keyframes frame-in {
-  from {
-    transform: translateY(8px) scale(0.992);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
 }
 
 @keyframes item-in {
@@ -329,13 +332,11 @@ button {
 
   .phone-shell {
     width: 100%;
-    height: 100svh;
-    border-radius: 0;
     border: none;
     box-shadow: none;
   }
 
   .top-bar h1 {
-    font-size: 27px;
+    font-size: 21px;
   }
 }
