@@ -54,8 +54,12 @@ export default function SignupPage() {
 
       <section className="scroll-area stack">
         <section className="surface stack">
-          <p className="subtle">학생 인증 후 WWT 계정을 만듭니다: 1) 코드 요청 → 2) 코드 검증 → 3) 가입</p>
-          <label className="stack">
+          <p className="title" style={{ fontSize: "17px" }}>
+            학생 인증 후 계정 생성
+          </p>
+          <p className="subtle">1) 이메일 인증코드 요청 → 2) 코드 검증 → 3) 닉네임/비밀번호 등록</p>
+
+          <label className="stack" style={{ gap: "6px" }}>
             <span className="label">이메일</span>
             <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" required />
           </label>
@@ -63,7 +67,7 @@ export default function SignupPage() {
             {sendCodeMutation.isPending ? "전송 중..." : "인증코드 요청"}
           </button>
 
-          <label className="stack">
+          <label className="stack" style={{ gap: "6px" }}>
             <span className="label">인증코드</span>
             <input value={code} onChange={(event) => setCode(event.target.value)} placeholder="테스트 코드: 123456" required />
           </label>
@@ -72,11 +76,11 @@ export default function SignupPage() {
           </button>
 
           <form className="stack" onSubmit={onSubmitSignup}>
-            <label className="stack">
+            <label className="stack" style={{ gap: "6px" }}>
               <span className="label">닉네임</span>
               <input value={nickname} onChange={(event) => setNickname(event.target.value)} required />
             </label>
-            <label className="stack">
+            <label className="stack" style={{ gap: "6px" }}>
               <span className="label">비밀번호</span>
               <input
                 value={password}

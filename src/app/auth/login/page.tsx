@@ -50,15 +50,23 @@ export default function LoginPage() {
       </header>
 
       <section className="scroll-area stack">
+        <section className="brand-hero">
+          <p className="brand-chip">WWT 계정</p>
+          <h2 className="hero-title" style={{ fontSize: "26px" }}>
+            학생 인증 계정으로 로그인하세요
+          </h2>
+          <p className="hero-copy">학생 전용 거래 보호를 위해 인증된 계정만 거래/채팅 기능을 사용할 수 있습니다.</p>
+        </section>
+
         <section className="surface stack">
-          <p className="subtle">대마고 학생 계정으로 로그인해 WWT 거래를 시작하세요.</p>
+          <p className="subtle">테스트용 계정이 기본 입력되어 있습니다.</p>
           <form className="stack" onSubmit={onSubmit}>
-            <label className="stack">
+            <label className="stack" style={{ gap: "6px" }}>
               <span className="label">이메일</span>
               <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" required />
             </label>
 
-            <label className="stack">
+            <label className="stack" style={{ gap: "6px" }}>
               <span className="label">비밀번호</span>
               <input
                 value={password}

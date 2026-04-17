@@ -25,17 +25,20 @@ export default function SentTradeRequestsPage() {
         {requestsQuery.isLoading && <p className="subtle">요청 목록 로딩 중...</p>}
 
         {requestsQuery.isSuccess && requestsQuery.data.items.length === 0 && (
-          <p className="subtle">보낸 거래 요청이 없습니다.</p>
+          <section className="surface stack" style={{ gap: "8px" }}>
+            <p className="title" style={{ fontSize: "16px" }}>보낸 거래 요청이 없습니다.</p>
+            <p className="subtle">관심 있는 상품에서 거래 요청을 보내보세요.</p>
+          </section>
         )}
 
         {requestsQuery.isSuccess &&
           requestsQuery.data.items.map((item) => (
-            <article className="surface stack" key={item.id}>
-              <p className="title" style={{ fontSize: "22px" }}>
-                요청 #{item.id}
-              </p>
-              <p>상품 #{item.productId}</p>
-              <p className="subtle">상태: {item.status}</p>
+            <article className="surface stack" key={item.id} style={{ gap: "8px" }}>
+              <div className="row">
+                <p className="title" style={{ fontSize: "16px" }}>요청 #{item.id}</p>
+                <span className="status-badge">{item.status}</span>
+              </div>
+              <p className="subtle">상품 #{item.productId}</p>
               <p className="tiny">{new Date(item.createdAt).toLocaleString("ko-KR")}</p>
             </article>
           ))}

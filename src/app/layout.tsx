@@ -1,7 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { Noto_Sans_KR, Space_Grotesk } from "next/font/google";
 import { Providers } from "@/app/providers";
 import { PwaRegister } from "@/components/pwa-register";
 import "@/app/globals.css";
+
+const bodyFont = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["400", "500", "700", "800"],
+  variable: "--font-body"
+});
+
+const headingFont = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-heading"
+});
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +44,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body>
+      <body className={`${bodyFont.variable} ${headingFont.variable}`}>
         <Providers>
           <PwaRegister />
           {children}
