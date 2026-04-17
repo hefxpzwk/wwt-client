@@ -19,5 +19,14 @@ export async function POST(request: NextRequest): Promise<Response> {
     return apiError(401, "INVALID_CREDENTIALS", "이메일 또는 비밀번호가 올바르지 않습니다.", path);
   }
 
-  return success(db.issueTokens(user.id));
+  const tokens = db.issueTokens(user.id);
+
+  return success({
+    ...tokens,
+    user: {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname
+    }
+  });
 }
