@@ -14,6 +14,31 @@
 
 - 날짜: 2026-04-17
 - 담당: Codex(Client Agent 겸 QA Agent)
+- 주제: WWT UIUX 2차 전면 개선(타이포/정보구조/인터랙션/브랜드 정합성)
+- 후보안:
+  - 기존 화이트 테마 유지 + 일부 문구만 보정
+  - WWT 전 화면 타이포/구조/상태표현을 재설계
+- 선택안: 공통 디자인 시스템 재정의 후 주요 사용자 플로우 화면 일괄 개선
+- 선택 이유:
+  - 사용자 피드백 기준으로 현재 디자인 완성도가 낮음
+  - 서비스 맥락(학생 전용 중고거래)의 신뢰감/가독성/행동 유도가 부족함
+  - PWA 앱 전제로 모바일 사용성이 중심이므로 정보 위계를 더 명확히 해야 함
+- 영향 범위:
+  - `src/app/globals.css`
+  - `src/app/page.tsx`, `src/app/products/page.tsx`, `src/app/products/[productId]/page.tsx`
+  - `src/app/auth/*`, `src/app/chats/*`, `src/app/mypage/*`, `src/app/trade-requests/sent/page.tsx`
+  - 공통 컴포넌트(`src/components/*`) 및 E2E 스모크 시나리오
+- 롤백 전략:
+  - 스타일 시스템 커밋과 페이지 구조 커밋 분리로 부분 롤백 가능
+  - 기능 로직(API/상태) 변경 없이 UI 계층 위주 변경으로 리스크 축소
+- 후속 작업:
+  - 실제 학교 인증 정책(이메일 도메인/학번 검증) 화면 분기 추가
+  - 접근성 검사(키보드 이동/명도 대비) 자동화 항목 보강
+
+---
+
+- 날짜: 2026-04-17
+- 담당: Codex(Client Agent 겸 QA Agent)
 - 주제: WWT 서비스 전용 UI 재설계 + PWA 전환 + 반응형 셸 정책 정립
 - 후보안:
   - 기존 레퍼런스 스타일(다크톤/카피 UI) 유지
