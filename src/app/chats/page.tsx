@@ -20,14 +20,19 @@ export default function ChatsPage() {
 
   return (
     <MobileShell>
-      <TopBar title="채팅" rightSlot={<Link href="/auth/login">인증</Link>} />
+      <TopBar title="채팅" rightSlot={<Link href="/auth/login">계정</Link>} />
 
       <section className="scroll-area stack">
+        <section className="surface stack" style={{ gap: "8px" }}>
+          <p className="title" style={{ fontSize: "18px" }}>
+            거래 메시지
+          </p>
+          <p className="subtle">구매/판매 상대와 거래 시간과 장소를 빠르게 조율하세요.</p>
+        </section>
+
         {roomsQuery.isLoading && <p className="subtle">채팅방을 불러오는 중입니다...</p>}
 
-        {roomsQuery.isSuccess && roomsQuery.data.items.length === 0 && (
-          <p className="subtle">아직 채팅방이 없습니다.</p>
-        )}
+        {roomsQuery.isSuccess && roomsQuery.data.items.length === 0 && <p className="subtle">아직 채팅방이 없습니다.</p>}
 
         {roomsQuery.isSuccess &&
           roomsQuery.data.items.map((room) => (
@@ -38,11 +43,11 @@ export default function ChatsPage() {
                 alt="avatar"
               />
               <div className="stack" style={{ gap: "4px" }}>
-                <p className="title" style={{ fontSize: "17px" }}>
+                <p className="title" style={{ fontSize: "16px" }}>
                   채팅방 #{room.id}
                 </p>
-                <p>{room.lastMessage || "메시지가 없습니다."}</p>
-                <p className="subtle">상품 #{room.productId}</p>
+                <p className="subtle" style={{ color: "#334766" }}>{room.lastMessage || "메시지가 없습니다."}</p>
+                <p className="tiny">상품 #{room.productId}</p>
               </div>
             </Link>
           ))}

@@ -51,7 +51,7 @@ export default function ChatRoomPage() {
           messagesQuery.data.items.map((item) => {
             const isMine = me ? item.senderId === me.id : item.senderId === 1;
             return (
-              <div key={item.id} className="stack" style={{ gap: "6px" }}>
+              <div key={item.id} className="stack" style={{ gap: "5px" }}>
                 <div className={isMine ? "chat-bubble chat-bubble-me" : "chat-bubble chat-bubble-you"}>{item.message}</div>
                 <p className="tiny">{new Date(item.createdAt).toLocaleTimeString("ko-KR")}</p>
               </div>
@@ -63,7 +63,7 @@ export default function ChatRoomPage() {
       </section>
 
       <form className="message-input-wrap" onSubmit={onSubmit}>
-        <input value={message} onChange={(event) => setMessage(event.target.value)} placeholder="메시지 보내기" />
+        <input value={message} onChange={(event) => setMessage(event.target.value)} placeholder="메시지를 입력하세요" />
         <button className="btn-primary" type="submit" disabled={sendMutation.isPending || !message.trim()}>
           전송
         </button>
