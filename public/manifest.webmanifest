@@ -1,0 +1,26 @@
+{
+  "name": "WWT - 우리학교 중고거래",
+  "short_name": "WWT",
+  "description": "대덕소프트웨어마이스터고 학생 전용 중고거래 서비스",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1273ea",
+  "orientation": "portrait",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
