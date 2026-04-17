@@ -14,16 +14,16 @@ export function AppTabBar({ active }: AppTabBarProps) {
   ] as const;
 
   return (
-    <nav className="tab-bar">
-      {tabs.map((tab) => (
-        <Link
-          key={tab.key}
-          href={tab.href}
-          className={tab.key === active ? "tab-item tab-item-active" : "tab-item"}
-        >
-          {tab.label}
-        </Link>
-      ))}
+    <nav className="tab-bar" aria-label="하단 탭 메뉴">
+      {tabs.map((tab) => {
+        const isActive = tab.key === active;
+        return (
+          <Link key={tab.key} href={tab.href} className={isActive ? "tab-item tab-item-active" : "tab-item"}>
+            <span className="tab-dot" />
+            <span>{tab.label}</span>
+          </Link>
+        );
+      })}
     </nav>
   );
 }

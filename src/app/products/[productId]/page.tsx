@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
 
   return (
     <MobileShell>
-      <TopBar title="상품" rightSlot={<Link href="/products">목록</Link>} />
+      <TopBar title="상품 상세" rightSlot={<Link href="/products">목록</Link>} />
 
       <section className="scroll-area stack">
         {product && (
@@ -54,39 +54,45 @@ export default function ProductDetailPage() {
             <img
               src={product.imageUrls[0]}
               alt={product.title}
-              style={{ width: "100%", borderRadius: "18px", height: "320px", objectFit: "cover" }}
+              style={{ width: "100%", borderRadius: "18px", height: "284px", objectFit: "cover", border: "1px solid var(--line)" }}
             />
 
-            <section className="surface stack">
+            <section className="surface stack" style={{ gap: "10px" }}>
               <div className="row-start">
                 <img
                   className="avatar"
                   src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?w=200&auto=format&fit=crop"
                   alt="seller"
                 />
-                <div>
-                  <p className="title" style={{ fontSize: "28px" }}>
+                <div className="stack" style={{ gap: "2px" }}>
+                  <p className="title" style={{ fontSize: "18px" }}>
                     {product.title}
                   </p>
-                  <p className="subtle">{product.category} · {product.locationName}</p>
+                  <p className="subtle">
+                    {product.category} · {product.locationName}
+                  </p>
                 </div>
               </div>
 
               <p className="price">{product.price.toLocaleString()}원</p>
-              <p>{product.description}</p>
+              <p className="subtle" style={{ whiteSpace: "pre-wrap" }}>
+                {product.description}
+              </p>
 
-              <div className="row" style={{ gap: "8px" }}>
-                <button className="btn-primary" onClick={() => tradeMutation.mutate()}>
+              <div className="row" style={{ alignItems: "stretch" }}>
+                <button className="btn-primary" style={{ flex: 1 }} onClick={() => tradeMutation.mutate()}>
                   거래 요청
                 </button>
-                <button className="btn-ghost" onClick={() => chatMutation.mutate()}>
-                  채팅방 만들기
+                <button className="btn-ghost" style={{ flex: 1 }} onClick={() => chatMutation.mutate()}>
+                  채팅 시작
                 </button>
               </div>
 
+              {tradeMutation.isSuccess && <p className="status-badge">거래 요청이 전송되었습니다.</p>}
+
               {chatMutation.isSuccess && (
                 <Link className="inline-link" href={`/chats/${chatMutation.data.id}`}>
-                  채팅방으로 이동
+                  생성된 채팅방으로 이동
                 </Link>
               )}
             </section>
