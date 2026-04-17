@@ -64,3 +64,44 @@
   - `DUPLICATE_PENDING_TRADE_REQUEST`, `SELF_TRADE_NOT_ALLOWED` 분기 기반 재시도 안내
 - 5xx:
   - 공통 서버 장애 메시지 및 재시도 유도
+
+---
+
+## 시나리오 이름
+
+- 목적: 회원가입(코드 발송/검증/가입)이 `order.md` 구현 요구와 API 명세 코드 체계에 맞게 동작하는지 검증한다.
+- 사전 조건:
+  - 개발 서버 실행(`npm run dev`)
+  - 기존 가입 계정(`bluefish@wwt.dev`) 외 신규 이메일 사용
+- 입력 데이터:
+  - 이메일: `new-user@wwt.dev`
+  - 인증코드: `123456` (mock 고정)
+  - 닉네임: `newbie`
+  - 비밀번호: `password123`
+
+## 절차
+
+1. `/auth/signup` 접속 후 이메일 입력, `인증코드 요청` 클릭.
+2. 인증코드 `123456` 입력 후 `인증코드 검증` 클릭.
+3. 닉네임/비밀번호 입력 후 `회원가입` 클릭.
+4. `/auth/login`으로 리다이렉트되는지 확인.
+
+## 기대 결과
+
+- 1단계에서 `POST /api/auth/signup/email-code`가 `201`로 성공한다.
+- 2단계에서 `POST /api/auth/signup/email-code/verify`가 `200`으로 토큰을 반환한다.
+- 3단계에서 `POST /api/auth/signup`이 `201`로 유저를 생성한다.
+- 실패 시 `message`가 아닌 `code` 기반 에러 분기가 표시된다.
+
+## 에러 케이스
+
+- 401:
+  - 해당 없음(회원가입 체인)
+- 403:
+  - 해당 없음(회원가입 체인)
+- 404:
+  - 해당 없음(회원가입 체인)
+- 409:
+  - `EMAIL_ALREADY_EXISTS` 반환 및 에러 노출
+- 5xx:
+  - 공통 서버 장애 메시지 노출

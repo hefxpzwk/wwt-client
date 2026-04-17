@@ -27,9 +27,12 @@ export const authApi = {
     return http<{ emailVerificationToken: string }>("/auth/signup/email-code/verify", { method: "POST", body });
   },
 
-  async signup(input: SignupRequest): Promise<{ id: number; email: string; nickname: string }> {
+  async signup(input: SignupRequest): Promise<{ id: number; email: string; nickname: string; emailVerifiedAt: string }> {
     const body = signupRequestSchema.parse(input);
-    return http<{ id: number; email: string; nickname: string }>("/auth/signup", { method: "POST", body });
+    return http<{ id: number; email: string; nickname: string; emailVerifiedAt: string }>("/auth/signup", {
+      method: "POST",
+      body
+    });
   },
 
   async login(input: LoginRequest): Promise<AuthTokens> {

@@ -34,3 +34,25 @@
 - 후속 작업:
   - 인증 체인(회원가입/로그인/리프레시/로그아웃) 화면 완성
   - 상품 상세/검색/거래 요청/채팅 API 및 UI 단계 구현
+
+---
+
+- 날짜: 2026-04-17
+- 담당: Codex(Client Agent 겸 QA Agent)
+- 주제: `docs/order.md` 기준 구현 점검 후 회원가입 체인 누락 보완
+- 후보안:
+  - 현재 상태 유지(회원가입 페이지 안내문만 제공)
+  - 회원가입 UI + signup API mock 엔드포인트까지 구현
+- 선택안: 회원가입 UI + `/api/auth/signup/*` 엔드포인트 추가
+- 선택 이유:
+  - `order.md` 3단계의 "UI 이후 로직/API 연결" 요구 충족
+  - API 명세의 인증 endpoint 범위를 클라이언트에서 직접 검증 가능
+- 영향 범위:
+  - `src/app/auth/signup/page.tsx`
+  - `src/app/api/auth/signup/**`
+  - `src/mocks/db.ts`, `src/mocks/signup.ts`
+- 롤백 전략:
+  - 신규 파일(`src/mocks/signup.ts`, signup route) 단위로 개별 롤백 가능
+  - 기존 로그인/리프레시/로그아웃 체인과 파일 경로 분리되어 영향 최소
+- 후속 작업:
+  - 회원가입 성공/실패 케이스(API route) 단위 테스트 추가
