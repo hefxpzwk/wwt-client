@@ -51,7 +51,7 @@ export default function LoginPage() {
 
       <section className="scroll-area stack">
         <section className="surface stack">
-          <p className="subtle">데모 계정이 기본 입력되어 있습니다.</p>
+          <p className="subtle">대마고 학생 계정으로 로그인해 WWT 거래를 시작하세요.</p>
           <form className="stack" onSubmit={onSubmit}>
             <label className="stack">
               <span className="label">이메일</span>

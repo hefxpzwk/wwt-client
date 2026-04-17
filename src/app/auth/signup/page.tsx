@@ -54,7 +54,7 @@ export default function SignupPage() {
 
       <section className="scroll-area stack">
         <section className="surface stack">
-          <p className="subtle">1) 이메일 인증코드 요청 → 2) 코드 검증 → 3) 회원가입</p>
+          <p className="subtle">학생 인증 후 WWT 계정을 만듭니다: 1) 코드 요청 → 2) 코드 검증 → 3) 가입</p>
           <label className="stack">
             <span className="label">이메일</span>
             <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" required />
@@ -65,7 +65,7 @@ export default function SignupPage() {
 
           <label className="stack">
             <span className="label">인증코드</span>
-            <input value={code} onChange={(event) => setCode(event.target.value)} placeholder="데모 코드: 123456" required />
+            <input value={code} onChange={(event) => setCode(event.target.value)} placeholder="테스트 코드: 123456" required />
           </label>
           <button className="btn-ghost" type="button" onClick={() => verifyCodeMutation.mutate()} disabled={verifyCodeMutation.isPending}>
             {verifyCodeMutation.isPending ? "검증 중..." : "인증코드 검증"}
