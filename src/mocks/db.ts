@@ -112,6 +112,7 @@ const revokedRefreshTokens = new Set<string>();
 let tradeRequestIdSequence = 1;
 let chatRoomIdSequence = 2;
 let chatMessageIdSequence = 3;
+let userIdSequence = 2;
 
 function randomToken(prefix: string, userId: number): string {
   const randomPart = Math.random().toString(36).slice(2);
@@ -124,6 +125,24 @@ export const db = {
   tradeRequests,
   chatRooms,
   chatMessages,
+  addUser(input: { email: string; nickname: string; password: string }) {
+    userIdSequence += 1;
+
+    const user = {
+      id: userIdSequence,
+      email: input.email,
+      nickname: input.nickname,
+      password: input.password,
+      profileImageUrl:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop",
+      joinedAt: new Date().toISOString(),
+      locationName: "미설정",
+      mannerTemp: 36.5
+    };
+
+    users.push(user);
+    return user;
+  },
   issueTokens(userId: number): { accessToken: string; refreshToken: string } {
     const accessToken = randomToken("access", userId);
     const refreshToken = randomToken("refresh", userId);
