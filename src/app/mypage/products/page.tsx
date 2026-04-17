@@ -9,7 +9,7 @@ export default function MyProductsPage() {
 
       <section className="scroll-area stack">
         <section className="surface stack">
-          <p className="subtle">초기 세팅 단계에서는 목록 연동 범위를 최소화했습니다.</p>
+          <p className="subtle">내가 올린 판매 글을 여기서 관리할 수 있습니다.</p>
           <Link href="/products" className="inline-link">
             전체 상품 목록으로 이동
           </Link>
