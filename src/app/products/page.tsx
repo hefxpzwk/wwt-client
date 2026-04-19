@@ -1,105 +1,114 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { AppTabBar } from "@/components/app-tab-bar";
-import { ErrorNotice } from "@/components/error-notice";
 import { MobileShell } from "@/components/mobile-shell";
-import { TopBar } from "@/components/top-bar";
 import { queryKeys } from "@/features/common/model/query-keys";
 import { productsApi } from "@/features/products/api/products-api";
-import { ApiError } from "@/lib/errors";
 
 const PAGE = 1;
 const LIMIT = 20;
 
-export default function ProductsPage() {
-  const [keyword, setKeyword] = useState("");
+function formatRelativeTime(value: string): string {
+  const createdAt = new Date(value).getTime();
+  const diffMinutes = Math.max(1, Math.floor((Date.now() - createdAt) / 60000));
 
+  if (diffMinutes < 60) {
+    return `${diffMinutes}분 전`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) {
+    return `${diffHours}시간 전`;
+  }
+
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}일 전`;
+}
+
+export default function ProductsPage() {
   const productsQuery = useQuery({
     queryKey: queryKeys.products(PAGE, LIMIT),
     queryFn: () => productsApi.getProducts({ page: PAGE, limit: LIMIT })
   });
 
-  const error = productsQuery.error instanceof ApiError ? productsQuery.error : null;
-
-  const filteredItems = useMemo(() => {
-    const items = productsQuery.data?.items ?? [];
-    if (!keyword.trim()) {
-      return items;
-    }
-
-    const lower = keyword.toLowerCase();
-    return items.filter((item) => item.title.toLowerCase().includes(lower));
-  }, [productsQuery.data?.items, keyword]);
+  const items = productsQuery.data?.items ?? [];
 
   return (
     <MobileShell>
-      <TopBar title="홈" rightSlot={<Link href="/auth/login">계정</Link>} />
+      <section className="market-home">
+        <header className="market-header">
+          <h1 className="market-brand" aria-label="WWT">
+            <span className="market-brand-main">WWT</span>
+          </h1>
 
-      <section className="scroll-area stack">
-        <section className="surface stack" style={{ gap: "10px" }}>
-          <p className="title" style={{ fontSize: "18px" }}>
-            WWT 마켓
-          </p>
-          <p className="subtle">교내 학생이 올린 판매글만 표시됩니다.</p>
-          <div className="toolbar">
-            <input
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              placeholder="물건명 검색"
-              aria-label="상품 검색"
-            />
-            <select aria-label="정렬 기준">
-              <option>최신순</option>
-              <option>낮은 가격순</option>
-              <option>높은 가격순</option>
-            </select>
+          <div className="market-actions">
+            <button className="icon-btn" type="button" aria-label="검색">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M11 4.75a6.25 6.25 0 1 0 3.886 11.148l4.108 4.11 1.06-1.061-4.109-4.11A6.25 6.25 0 0 0 11 4.75ZM6.25 11a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
           </div>
-        </section>
+        </header>
 
-        <section className="product-list">
-          {productsQuery.isLoading && <p className="subtle">상품을 불러오는 중입니다...</p>}
+        <section className="market-feed" aria-label="홈 상품 목록">
+          {productsQuery.isLoading && <p className="market-status">상품을 불러오는 중입니다...</p>}
 
-          {productsQuery.isSuccess && filteredItems.length === 0 && (
-            <section className="surface stack" style={{ gap: "8px" }}>
-              <p className="title" style={{ fontSize: "16px" }}>
-                검색 결과가 없습니다.
-              </p>
-              <p className="subtle">다른 키워드로 다시 검색해 보세요.</p>
-            </section>
-          )}
+          {productsQuery.isError && <p className="market-status">상품 목록을 불러오지 못했습니다.</p>}
+
+          {productsQuery.isSuccess && items.length === 0 && <p className="market-status">등록된 상품이 없습니다.</p>}
 
           {productsQuery.isSuccess &&
-            filteredItems.map((product, index) => (
-              <Link
-                href={`/products/${product.id}`}
-                key={product.id}
-                className="product-item"
-                style={{ animationDelay: `${index * 30}ms` }}
-              >
-                <img className="product-thumb" src={product.imageUrls[0]} alt={product.title} />
-                <div className="stack" style={{ gap: "4px" }}>
-                  <p className="product-name">{product.title}</p>
-                  <p className="subtle">
-                    {product.locationName} · {new Date(product.createdAt).toLocaleDateString("ko-KR")}
+            items.map((product) => (
+              <Link className="market-item" href={`/products/${product.id}`} key={product.id}>
+                <img className="market-thumb" src={product.imageUrls[0]} alt={product.title} />
+                <div className="market-content">
+                  <p className="market-title">{product.title}</p>
+                  <p className="market-meta">
+                    {product.locationName} · {formatRelativeTime(product.createdAt)}
                   </p>
-                  <p className="price">{product.price.toLocaleString()}원</p>
-                  <p className="metric">조회 {product.views} · 관심 {product.likes}</p>
+                  <p className="market-price">{product.price.toLocaleString()}원</p>
+                  <p className="market-reaction">
+                    <span aria-hidden="true">♡</span>
+                    <span className="market-reaction-count">{product.likes}</span>
+                  </p>
                 </div>
               </Link>
             ))}
         </section>
 
-        <ErrorNotice code={error?.code} message={error?.message} />
-
-        <Link href="/products/new" className="floating-btn">
-          판매 글쓰기
+        <Link href="/products/new" className="market-write-btn" aria-label="판매 글쓰기">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
         </Link>
-      </section>
 
-      <AppTabBar active="home" />
+        <nav className="market-nav" aria-label="하단 메뉴">
+          <Link href="/products" className="market-nav-item market-nav-item-active">
+            <span className="market-nav-icon">⌂</span>
+            <span>홈</span>
+          </Link>
+          <Link href="/products/new" className="market-nav-item">
+            <span className="market-nav-icon">▦</span>
+            <span>등록</span>
+          </Link>
+          <Link href="/trade-requests/sent" className="market-nav-item">
+            <span className="market-nav-icon">⌖</span>
+            <span>내 근처</span>
+          </Link>
+          <Link href="/chats" className="market-nav-item">
+            <span className="market-nav-icon">◌</span>
+            <span>채팅</span>
+          </Link>
+          <Link href="/mypage" className="market-nav-item">
+            <span className="market-nav-icon">◔</span>
+            <span>나의 당근</span>
+          </Link>
+        </nav>
+      </section>
     </MobileShell>
   );
 }

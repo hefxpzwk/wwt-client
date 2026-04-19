@@ -465,62 +465,84 @@ button {
 
 .market-header {
   height: 62px;
-  padding: 0 14px;
-  border-bottom: 1px solid #eceef2;
+  padding: 0 16px;
+  border-bottom: 1px solid #eef0f3;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.market-location {
+.market-brand {
+  margin: 0;
+  color: #1e222a;
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 780;
+  letter-spacing: -0.02em;
+  font-family: var(--font-heading), var(--font-body), sans-serif;
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: none;
-  background: none;
-  color: #222;
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  align-items: baseline;
+}
+
+.market-brand-main {
+  position: relative;
+}
+
+.market-brand-main::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #f09a3d;
 }
 
 .market-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
 .icon-btn {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border: none;
   border-radius: 999px;
   background: #fff;
-  color: #202734;
-  font-size: 20px;
-  line-height: 1;
+  color: #272b33;
   display: grid;
   place-items: center;
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
 }
 
 .market-feed {
   flex: 1;
   overflow: auto;
-  padding: 8px 0 90px;
+  padding: 4px 0 136px;
+  scrollbar-width: none;
+}
+
+.market-feed::-webkit-scrollbar {
+  display: none;
 }
 
 .market-item {
   display: grid;
-  grid-template-columns: 112px 1fr;
-  gap: 12px;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
   padding: 14px 16px;
-  border-bottom: 1px solid #eff1f4;
+  border-bottom: 1px solid #f0f1f4;
 }
 
 .market-thumb {
   width: 112px;
   height: 112px;
-  border-radius: 10px;
+  border-radius: 11px;
   object-fit: cover;
   background: #f2f3f6;
 }
@@ -528,16 +550,16 @@ button {
 .market-content {
   min-width: 0;
   display: grid;
-  gap: 2px;
+  gap: 3px;
   align-content: start;
 }
 
 .market-title {
   margin: 0;
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 600;
-  color: #303540;
-  line-height: 1.35;
+  color: #383c43;
+  line-height: 1.33;
   letter-spacing: -0.02em;
   overflow: hidden;
   white-space: nowrap;
@@ -546,71 +568,107 @@ button {
 
 .market-meta {
   margin: 0;
-  color: #9aa0ab;
-  font-size: 15px;
+  color: #8f949e;
+  font-size: 13px;
 }
 
 .market-price {
-  margin: 4px 0 0;
-  font-size: 35px;
-  font-weight: 800;
-  color: #1f2530;
-  letter-spacing: -0.02em;
+  margin: 5px 0 0;
+  font-size: 18px;
+  font-weight: 760;
+  color: #1f2128;
+  line-height: 1.3;
 }
 
 .market-reaction {
-  margin: 3px 0 0;
+  margin: 2px 0 0;
   justify-self: end;
-  color: #8b919d;
+  color: #979ca5;
+  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.market-reaction-count {
+  font-size: 14px;
+}
+
+.market-status {
+  margin: 0;
+  padding: 24px 16px 8px;
+  color: #8a9099;
   font-size: 14px;
 }
 
 .market-write-btn {
   position: absolute;
   right: 14px;
-  bottom: 86px;
-  width: 56px;
-  height: 56px;
+  bottom: 74px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
   border: none;
   border-radius: 999px;
-  background: #f39a3c;
+  background: #f09a3d;
   color: #fff;
-  font-size: 36px;
-  line-height: 1;
-  box-shadow: 0 8px 20px rgba(228, 132, 38, 0.35);
+  box-shadow: 0 10px 20px rgba(219, 136, 47, 0.38);
+  z-index: 2;
+}
+
+.market-write-btn svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
 }
 
 .market-nav {
-  height: 68px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
   border-top: 1px solid #eceef2;
   background: #fff;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  z-index: 2;
 }
 
 .market-nav-item {
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  color: #7d8490;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #9498a1;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .market-nav-item-active {
-  color: #1c2431;
-  font-weight: 700;
+  color: #22252c;
+}
+
+.market-nav-icon {
+  font-size: 18px;
+  line-height: 1;
 }
 
 @media (max-width: 560px) {
-  .market-location {
-    font-size: 28px;
+  .market-brand {
+    font-size: 22px;
   }
 
   .market-title {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .market-price {
-    font-size: 33px;
+    font-size: 17px;
   }
 }
