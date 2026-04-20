@@ -1,52 +1,70 @@
-# WWT Agents Guide
+# AGENTS.md
 
-이 문서는 WWT 클라이언트 레포에서 에이전트(사람/AI)가 같은 방식으로 개발하기 위한 운영 기준이다.
+## 1) 프로젝트 목표
 
-## 1. 목적
+- 이 저장소는 **중고거래 모바일 앱 클라이언트**를 개발한다.
+- 백엔드는 [`docs/API.txt`](/home/hefxpzwk/dev/wwt-client/docs/API.txt) 기준 REST API를 사용한다.
+- 디자인은 `referenceImage/` 폴더의 레퍼런스를 우선 반영한다.
+- 현재 단계는 **초기 하네스(문서/원칙/구조) 고정**이며, 실제 화면 구현은 다음 단계에서 진행한다.
 
-- API 명세(`wwt-api-spec.md`)와 구현의 괴리를 줄인다.
-- 작업 단위를 작게 나눠 병렬 개발이 가능하게 만든다.
-- PR 리뷰 시 확인 기준을 표준화한다.
+## 2) 고정 기술 스택 (v1)
 
-## 2. 공통 원칙
+- Runtime: React Native + Expo (managed)
+- Language: TypeScript (strict)
+- Navigation: React Navigation
+- State (서버): TanStack Query
+- State (로컬 UI): Zustand
+- Networking: Axios (단일 API 클라이언트 계층)
+- Validation: Zod
+- Form: React Hook Form
+- Storage (accessToken): 메모리 + 안전 스토리지
+- Storage (refreshToken): 안전 스토리지 (`expo-secure-store`)
+- Env: `EXPO_PUBLIC_API_BASE_URL`
+- Date/Format: dayjs
+- Test: Jest + React Native Testing Library
+- E2E(추후): Detox
 
-1. 모든 기능은 명세의 endpoint/에러코드 기준으로 구현한다.
-2. 에러 분기는 `message`가 아니라 `code`로 처리한다.
-3. 인증 관련 변경은 RFR(refresh token rotation) 규칙을 깨면 안 된다.
-4. UI/상태/테스트 변경은 함께 제출한다(코드만 단독 금지).
+## 3) 코드/폴더 원칙
 
-## 3. 에이전트 역할
+- API 계약 단일 출처: `docs/API.txt`
+- 디자인 단일 출처: `referenceImage/*`
+- 화면 구현 시 아래 구조를 기본으로 사용한다.
 
-- `Product Agent`: 요구사항 정리, 범위/완료조건 확정
-- `Client Agent`: 화면/상태/API 연동 구현
-- `QA Agent`: 시나리오/회귀 테스트 작성 및 검증
-- `Security Agent`: 토큰/민감정보/권한 처리 검토
+```txt
+src/
+  app/               # 엔트리, 네비게이션 루트
+  screens/           # 화면 단위
+  features/          # 도메인 단위(auth, products, trades, chats)
+  entities/          # 타입/모델
+  shared/
+    api/             # axios client, interceptors, endpoint modules
+    ui/              # 공통 컴포넌트
+    lib/             # utils, constants
+    store/           # zustand stores
+```
 
-상황에 따라 1인이 여러 역할을 겸할 수 있다.
+## 4) 에이전트 실행 규칙
 
-## 4. 작업 단위 규칙
+- API 스펙 임의 변경 금지. 불일치 발견 시 문서에 기록 후 확인 요청.
+- 인증 API는 RFR(refresh-token rotation) 정책을 반드시 반영.
+- 에러 처리 분기는 `code` 필드 기준으로 구현.
+- WebSocket 채팅은 v1 제외. 메시지 API는 REST로 구현.
+- 화면 착수 전 `docs/REFERENCE_ASSETS.md`의 매핑을 먼저 갱신한다.
+- API에 존재하지만 레퍼런스 이미지가 없는 화면은 기존 레퍼런스의 레이아웃/컴포넌트/토큰을 재사용해 신규 설계한다.
+- 임시 결정 사항은 `docs/DECISIONS.md`에 기록한다.
 
-1. 한 작업은 하나의 사용자 가치(예: 로그인 완료) 기준으로 자른다.
-2. 한 작업의 완료 조건은 문서로 먼저 확정한다.
-3. 작업 시작 전 `docs/harness/templates/decision-log.md`에 결정 로그를 남긴다.
-4. 작업 완료 전 `docs/harness/templates/test-scenario.md` 기준 시나리오를 업데이트한다.
+## 5) 작업 순서 (초기 표준)
 
-## 5. PR/리뷰 기준
+1. API 명세를 도메인별(Auth/Users/Products/Trades/Chats)로 확인한다.
+2. 레퍼런스 이미지를 화면 단위로 분류/이름 고정한다.
+3. 도메인 타입/DTO를 먼저 작성한다.
+4. API 클라이언트 + 에러 코드 매퍼를 만든다.
+5. 화면 구현은 인증 > 상품 > 거래 > 채팅 순으로 진행한다.
+6. 각 화면 완료 시 체크리스트를 업데이트한다.
 
-1. 명세 준수: 요청/응답/에러코드 일치 여부
-2. 상태 안정성: 로딩/성공/실패/재시도 동작
-3. 보안 준수: 토큰 보관/갱신/폐기, 민감정보 노출 여부
-4. 회귀 안정성: 기존 주요 시나리오 깨짐 여부
+## 6) 완료 기준 (Definition of Done)
 
-## 6. 필수 문서
-
-- 하네스 본문: `docs/harness/development-harness.md`
-- 운영 런북: `docs/harness/runbook.md`
-- 에이전트 워크플로우: `docs/agents/agent-workflow.md`
-
-## 7. 시작 체크
-
-1. 명세 변경 여부 확인
-2. 작업 범위/완료조건 확정
-3. 테스트 시나리오 정의
-4. 구현 후 자체 점검(런북 체크리스트)
+- API 명세에 있는 필수 요청/응답 필드를 누락 없이 사용한다.
+- 인증/권한/에러 코드 분기가 명세와 일치한다.
+- 레퍼런스 이미지 대비 레이아웃/타이포/간격 규칙이 일관된다.
+- 기본 테스트(렌더/핵심 훅/API 실패 케이스)가 통과한다.
